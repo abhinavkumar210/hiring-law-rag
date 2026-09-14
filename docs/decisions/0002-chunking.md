@@ -86,3 +86,43 @@ separates a provision from the condition governing it.
   depends on the embedding model's context limit — folded into the next decision.
 - The harness must include a cosine-similarity check on the near-duplicate pair, or the
   central chunking claim stays unverified.
+
+
+## Validation result — 2026-09-14, later the same day
+
+The cosine measurement this ADR called for has now been run
+(`scripts/near_duplicate_check.py`, `Alibaba-NLP/gte-modernbert-base`), over the 67
+subsection bodies that are byte-identical across 29 CFR 1607 and 41 CFR 60-3.
+
+| | mean | min | max | pairs > 0.99 |
+|---|---|---|---|---|
+| no header (strategy B) | 1.0001 | 0.9990 | 1.0008 | 67 / 67 |
+| with header (strategy C) | 0.9515 | 0.9231 | 0.9822 | 0 / 67 |
+
+(Values marginally above 1.0 are float error in dot products of L2-normalised vectors,
+not a defect.)
+
+**Half the hypothesis holds.** Without a header the two parts are perfectly confusable —
+identical strings produce identical vectors, exactly as predicted. The header produces
+real, consistent separation: every one of the 67 pairs drops below 0.99, mean separation
++0.0486.
+
+**The other half fails.** A mean of 0.9515 is still extremely high. Separation that small
+does not reliably reorder a ranked list, and a direct retrieval probe shows it does not:
+
+    query: "federal contractor obligations for employee selection procedures"
+    top-3: [ugesp, ofccp_60_3, ugesp]
+
+That query is about federal contractors, which is precisely what 41 CFR 60-3 governs and
+29 CFR 1607 does not. **The wrong jurisdiction ranks first.** This is the failure the
+header was supposed to prevent, still happening with the header in place.
+
+Caveat on strength of evidence: this is two hand-written queries, not a golden set. It is
+a strong signal, not proof. The golden set must include jurisdiction-sensitive queries so
+this is measured properly rather than spot-checked.
+
+**Conclusion.** Strategy C is kept — it is strictly better than B, costs almost nothing,
+and the separation it buys is real. But it is **not** a solution to the jurisdiction
+problem, and ADR 0002 was wrong to imply it might be. Jurisdiction is metadata. It needs
+to be handled as metadata — a filter or a routing decision — not coaxed out of embedding
+space. That is now a decision of its own.

@@ -21,7 +21,10 @@ The 512-token cliff is what makes this a decision rather than a default.
 
 ## Decision
 
-**`nomic-embed-text-v1.5`, run locally via sentence-transformers on CPU.**
+**A local long-context model on CPU via sentence-transformers.**
+
+Originally `nomic-embed-text-v1.5`; **superseded by `Alibaba-NLP/gte-modernbert-base`**
+after the first failed. See "Revision" below.
 
 Two reasons, in order of weight:
 
@@ -66,3 +69,28 @@ skills.
 - The cosine-similarity check on the 67 byte-identical bodies shared by 29 CFR 1607 and
   41 CFR 60-3 is now possible. That check is what will finally confirm or refute the
   header-injection hypothesis from ADR 0002.
+
+
+## Revision — 2026-09-14, same day
+
+`nomic-embed-text-v1.5` was replaced before a single vector was written to disk.
+
+**What happened.** The model requires `trust_remote_code=True`. That custom code targets
+transformers 4.x and calls `get_extended_attention_mask`, which no longer exists on the
+model class in transformers 5.x. It fails inside `forward()`, after the model loads
+successfully — so the break surfaces at first encode, not at load.
+
+**Replacement:** `Alibaba-NLP/gte-modernbert-base`. Same 8,192-token context, same 768
+dimensions, built on ModernBERT — which transformers supports natively. **No third-party
+code executes at load time.**
+
+**Why this is a better decision than the original, not just a workaround.** ADR 0003
+already noted that `trust_remote_code=True` would fail a federal security review. Removing
+the requirement entirely means the project no longer demonstrates a practice it also has
+to disclaim. The failure argued for the thing the ADR was already uneasy about.
+
+**Consequence for prefixes.** nomic-embed requires `search_document: ` / `search_query: `
+prefixes. gte-modernbert is trained symmetrically and uses none. Carrying the nomic
+convention across would not error — it would prepend noise to every vector and silently
+degrade retrieval. This is the same class of silent failure the module was written to
+prevent, and it nearly landed via a model swap rather than a coding mistake.
