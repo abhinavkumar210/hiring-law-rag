@@ -77,3 +77,33 @@ def test_fixed_window_overlaps_and_covers_all_text(ugesp):
 def test_fixed_window_rejects_overlap_larger_than_size(ugesp):
     with pytest.raises(ValueError):
         fixed_window(ugesp, size=100, overlap=100)
+
+
+def test_deduplicate_merges_identical_bodies_across_parts():
+    """67 bodies appear verbatim in both 29 CFR 1607 and 41 CFR 60-3."""
+    from index.chunkers import deduplicate
+
+    ug = structural(parse_part(RAW / "ugesp.xml", "ugesp"))
+    of = structural(parse_part(RAW / "ofccp_60_3.xml", "ofccp_60_3"))
+    merged = deduplicate(ug + of)
+
+    assert len(merged) == len({c.body for c in ug + of})
+    assert len(merged) < len(ug) + len(of), "expected some bodies to merge"
+
+    multi = [c for c in merged if len(c.citations) > 1]
+    assert len(multi) == 67, f"expected 67 shared bodies, got {len(multi)}"
+
+    # every merged chunk must name both regimes, in the vector and in metadata
+    for c in multi:
+        assert len(c.source_ids) == 2
+        for cite in c.citations:
+            assert cite in c.embed_text, "all citations must be embedded"
+
+
+def test_deduplicate_leaves_unique_bodies_untouched():
+    from index.chunkers import deduplicate
+
+    ug = structural(parse_part(RAW / "ugesp.xml", "ugesp"))
+    merged = deduplicate(ug)
+    assert len(merged) == len({c.body for c in ug})
+    assert all(len(c.citations) == 1 for c in merged if c.body in {u.body for u in ug})
