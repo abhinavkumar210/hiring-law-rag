@@ -1,0 +1,14 @@
+{
+  "ecfr_date": "2026-01-01",
+  "sources": [
+    {"id": "ugesp",        "layer": "foundation", "kind": "ecfr", "title": 29, "part": "1607",  "name": "Uniform Guidelines on Employee Selection Procedures", "why": "Defines adverse impact and the four-fifths rule at 1607.4(D). The threshold every AEDT bias audit depends on."},
+    {"id": "ada_regs",     "layer": "foundation", "kind": "ecfr", "title": 29, "part": "1630",  "name": "EEOC regulations implementing the ADA", "why": "Disability discrimination; governs accessibility of automated screening."},
+    {"id": "adea_regs",    "layer": "foundation", "kind": "ecfr", "title": 29, "part": "1625",  "name": "EEOC regulations implementing the ADEA", "why": "Age discrimination; relevant to models trained on tenure or graduation-year features."},
+    {"id": "sex_disc",     "layer": "foundation", "kind": "ecfr", "title": 29, "part": "1604",  "name": "Guidelines on Discrimination Because of Sex", "why": "Sex discrimination guidance under Title VII."},
+    {"id": "natl_origin",  "layer": "foundation", "kind": "ecfr", "title": 29, "part": "1606",  "name": "Guidelines on Discrimination Because of National Origin", "why": "National-origin discrimination; relevant to name and language features."},
+    {"id": "eeoc_recordkeeping", "layer": "foundation", "kind": "ecfr", "title": 29, "part": "1602", "name": "EEOC Recordkeeping and Reporting", "why": "Record retention obligations that bias audits depend on."},
+    {"id": "ofccp_60_1",   "layer": "foundation", "kind": "ecfr", "title": 41, "part": "60-1",  "name": "OFCCP Obligations of Contractors", "why": "Federal contractor affirmative action obligations."},
+    {"id": "ofccp_60_3",   "layer": "foundation", "kind": "ecfr", "title": 41, "part": "60-3",  "name": "OFCCP Uniform Guidelines (mirror of UGESP)", "why": "Near-duplicate of 29 CFR 1607. Deliberately included: near-duplicate documents are a known retrieval failure mode and the harness should measure it."},
+    {"id": "ofccp_60_741", "layer": "foundation", "kind": "ecfr", "title": 41, "part": "60-741","name": "OFCCP Section 503 Disability", "why": "Disability obligations for federal contractors."}
+  ]
+}
