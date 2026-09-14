@@ -78,3 +78,28 @@ The two correct reasons, both already in ADR 0001:
    (The seed of this was in the "subject matter is still new" instinct — it just
    needs to be aimed at the golden set rather than at the law.)
 Reason 2 is the stronger answer because it shows evaluation-first thinking.
+
+### 2026-09-14 — Quiz 1, re-ask
+
+**Q1 — pass on substance.** Two refinements:
+- Precision: LL144 *does* require computing an impact ratio. What it omits is the
+  *acceptable threshold*. Say "no defined threshold," not "no defined impact ratio" —
+  an employment-side interviewer will hear the difference.
+- Incomplete: the legal chain is only half the answer. The other half is why it's a
+  hard *retrieval* problem — 45 years apart, no shared vocabulary, neither cites the
+  other, so embedding similarity will never connect them. That half is what makes it
+  your project rather than a legal fact.
+
+**Q2 — pass.** Both reasons present, led with ground-truth stability. Factual error
+about federal case law is gone.
+
+**Q3 — good instinct, one refinement.** Correctly identified the tension: bigger
+chunks help disambiguate near-duplicates, but chunking finer risks breaking the
+cross-document dependency.
+Refinement: **chunk size cannot fix the cross-document hop at all.** No chunk size
+makes an embedding model connect "impact ratio" (2023) to "four-fifths" (1978) —
+that needs a different mechanism (query expansion, a second retrieval hop, or
+explicit cross-reference edges). Knowing which problem a given knob *can't* solve is
+the senior answer.
+So: chunking is aimed at the near-duplicate problem. The cross-document hop is a
+separate decision, deferred to its own ADR.
