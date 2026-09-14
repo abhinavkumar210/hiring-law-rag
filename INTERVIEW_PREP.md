@@ -103,3 +103,26 @@ explicit cross-reference edges). Knowing which problem a given knob *can't* solv
 the senior answer.
 So: chunking is aimed at the near-duplicate problem. The cross-document hop is a
 separate decision, deferred to its own ADR.
+
+
+## Measured results worth quoting
+
+**Near-duplicate separation, 29 CFR 1607 vs 41 CFR 60-3** (67 byte-identical bodies,
+gte-modernbert-base):
+
+| | mean cosine | pairs > 0.99 |
+|---|---|---|
+| no citation header | 1.0001 | 67 / 67 |
+| with citation header | 0.9515 | 0 / 67 |
+
+The header moved every pair below 0.99 but only bought +0.049 mean separation — not
+enough to reorder a ranked list. A probe query about *federal contractor* obligations
+still ranked 29 CFR 1607 (EEOC, not contractors) above 41 CFR 60-3 (OFCCP, contractors).
+
+**The story this supports:** "I hypothesised that embedding the citation would separate
+two near-identical regulations. I measured it. It moved similarity from 1.00 to 0.95,
+which sounds like a win until you notice 0.95 still ranks the wrong document first. So I
+stopped trying to solve a metadata problem in embedding space and filtered on
+jurisdiction instead."
+
+That is a stronger answer than if the hypothesis had simply worked.
