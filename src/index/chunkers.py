@@ -21,6 +21,9 @@ import re
 
 from ingest.parse_ecfr import Unit
 
+# Separator between a chunk header and its body.
+PARA = chr(10) * 2
+
 try:  # pragma: no cover - depends on environment
     import tiktoken
 
@@ -50,6 +53,11 @@ class Chunk:
     source_id: str
     citations: list[str]     # every citation this chunk's text covers
     n_tokens: int
+    source_ids: list[str] = dataclasses.field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        if not self.source_ids:
+            self.source_ids = [self.source_id]
 
 
 def structural(units: list[Unit]) -> list[Chunk]:
@@ -123,3 +131,54 @@ def fixed_window(
         if start + win_words >= len(words):
             break
     return chunks
+
+
+def deduplicate(chunks: list[Chunk]) -> list[Chunk]:
+    """Collapse chunks whose regulatory text is byte-identical across parts.
+
+    Measured on this corpus, 67 subsection bodies appear verbatim in both
+    29 CFR 1607 (EEOC) and 41 CFR 60-3 (OFCCP), and embedding them separately put
+    two near-identical vectors in the index at cosine 0.95 even with citation
+    headers — enough to rank the wrong jurisdiction first. See ADR 0004.
+
+    Identical text is one rule that happens to be published in two places, so it
+    is indexed once and carries every citation it appears under. This is also the
+    legally correct shape: a federal contractor is subject to 41 CFR 60-3 as a
+    contractor *and* 29 CFR 1607 as an employer under Title VII. Filtering to one
+    would hide obligations that genuinely apply.
+
+    Order is preserved, and the first occurrence wins for heading text.
+    """
+    by_body: dict[str, Chunk] = {}
+    order: list[str] = []
+
+    for c in chunks:
+        existing = by_body.get(c.body)
+        if existing is None:
+            by_body[c.body] = dataclasses.replace(
+                c, citations=list(c.citations), source_ids=list(c.source_ids)
+            )
+            order.append(c.body)
+            continue
+        for cite in c.citations:
+            if cite not in existing.citations:
+                existing.citations.append(cite)
+        for sid in c.source_ids:
+            if sid not in existing.source_ids:
+                existing.source_ids.append(sid)
+
+    merged = []
+    for body in order:
+        c = by_body[body]
+        if len(c.citations) > 1:
+            # Rebuild the header so every citation is inside the embedded text,
+            # not just the one that happened to be seen first.
+            cites = "; ".join(c.citations)
+            first_line = c.embed_text.split(PARA, 1)[0]
+            heading = first_line.rsplit("|", 1)[0].strip()
+            c.embed_text = PARA.join([f"{heading} | {cites}", c.body])
+            c.source_id = "+".join(c.source_ids)
+            c.chunk_id = f"merged:{'+'.join(c.source_ids)}:{c.citations[0]}"
+            c.n_tokens = count_tokens(c.embed_text)
+        merged.append(c)
+    return merged
