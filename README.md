@@ -249,8 +249,12 @@ force.
 - **Two golden questions still fail**, both `single_hop`, both because a reserved
   cross-document slot displaced the correct citation at rank 4 or 5. Recoverable by
   raising `k` or dropping to one hop strategy; left as the honest cost of ADR 0008.
-- **Retrieval costs three embedding passes per query** with two-stage enabled, roughly
-  3x latency. Fine at ~2s/query on CPU; would need caching under load.
+- **Retrieval costs up to five embedding passes per query** with two-stage enabled.
+  At ~2s per pass on CPU that is ~10s per question, so the full harness takes ~8
+  minutes and a cold index build takes ~50. The evaluation CI job is therefore manual
+  (`workflow_dispatch`); the regression-gate *logic* is unit-tested in the fast job, so
+  a broken gate still fails on every push. Under real load this needs query caching or
+  a GPU.
 - **Jurisdiction coverage is partial** — NYC and Colorado only. Illinois, California FEHA
   and the EU are not represented.
 

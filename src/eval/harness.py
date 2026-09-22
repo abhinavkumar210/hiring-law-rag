@@ -96,7 +96,7 @@ def score_question(
     # refused by pattern match *before* retrieval runs - so asking the index
     # alone whether it would abstain measures the wrong layer and scores every
     # refusal item as a failure. Compose is the real system boundary.
-    abstained = compose(item["question"], index, k=k).refused
+    abstained = compose(item["question"], index, k=k, results=results).refused
 
     if item["type"] in ABSTAIN_TYPES:
         # Correct behaviour is to decline. No evidence is expected.
