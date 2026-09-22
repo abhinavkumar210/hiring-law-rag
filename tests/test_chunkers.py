@@ -166,3 +166,16 @@ def test_merged_citations_lead_with_the_broader_regulation():
     assert four_fifths
     target = next(c for c in four_fifths if len(c.citations) > 1)
     assert target.citations[0].startswith("29 CFR"), target.citations
+
+
+def test_length_sort_permutation_is_inverted_correctly():
+    """Vectors are produced in length order and must be restored to chunk order."""
+    import numpy as np
+
+    n_tokens = [500, 10, 900, 50]
+    order = sorted(range(len(n_tokens)), key=lambda i: n_tokens[i])
+    # pretend each chunk embeds to a vector carrying its own index
+    sorted_vecs = np.array([[float(i)] for i in order])
+    restored = np.empty_like(sorted_vecs)
+    restored[np.asarray(order)] = sorted_vecs
+    assert [int(v[0]) for v in restored] == list(range(len(n_tokens)))

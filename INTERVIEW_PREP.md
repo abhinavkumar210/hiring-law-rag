@@ -230,3 +230,79 @@ read the ADR.
 - [ ] Be ready for "what would you do differently" — honest answer: hybrid BM25 retrieval
       for the non-duplicate remainder, and a canonical ordering rule for merged citations.
 - [ ] Be able to explain why the abstention threshold is 0.62 and what moving it costs.
+
+---
+
+# Evaluation results and the multihop fix (2026-09-22)
+
+## The single most valuable number in the project
+
+| type | n | single-stage | two-stage |
+|---|---|---|---|
+| cross_document | 2 | **0.000** | **1.000** |
+| jurisdiction | 3 | 0.667 | 1.000 |
+| status_sensitive | 2 | 0.500 | 1.000 |
+| single_hop | 21 | **0.952** | 0.905 |
+| refusal / out_of_scope | 4 | 1.000 | 1.000 |
+| **overall correct** | 32 | **0.844** | **0.938** |
+
+**The story to tell:** "My first evaluation run scored 0.844 overall, which looks like a
+working system. Broken out by question type, the cross-document category — the one the
+whole corpus was chosen to test — scored zero. If I had reported a single aggregate number
+I would have shipped it believing it worked."
+
+That is the strongest thing in this repo. It is a concrete argument for a design decision
+(per-type reporting) that paid off immediately and visibly.
+
+## How the fix was found, step by step
+
+Worth rehearsing as a debugging narrative, because it shows method rather than luck:
+
+1. **Diagnosed before fixing.** Printed the top-5 for the failing query. The entire top-20
+   was NYC documents.
+2. **Checked whether the answer was even reachable.** 29 CFR 1607.4(D) was at rank 28 — in
+   the index, just buried. That ruled out an ingestion problem.
+3. **Tested the hypothesis before building it.** Used a retrieved NYC chunk as its own
+   query: 1607.4(D) came back at cross-source rank 3. Only then wrote the code.
+4. **First implementation improved the wrong things.** Excluding the seed's source fixed
+   jurisdiction and status_sensitive but left cross_document at 0.000.
+5. **Diagnosed that too.** `nyc_ll144_rules` and `nyc_aedt_faq` are different sources in
+   the same regime, so the hop went sideways within NYC. Excluding *jurisdiction* forced a
+   real crossing and fixed cross_document — but broke the other two, because withdrawn
+   EEOC guidance and UGESP are both US-federal.
+6. **Ran both strategies, one reserved slot each.** All three categories at 1.000.
+
+If asked "how do you debug a retrieval problem", that sequence *is* the answer.
+
+## The harness bug — a second false-confidence story
+
+Both refusal questions scored 0.000 on the first run. The system was fine: refusals for
+legal advice are enforced in the composer by pattern match *before* retrieval, and the
+harness was calling `index.search()` directly. It was measuring the retrieval layer against
+a guarantee that lives one layer up.
+
+Lesson to state out loud: a failing metric is a claim about your measurement as much as
+about your system. Know which component produced the number.
+
+## Be ready for the cost question
+
+They will ask what it cost, and the answer must be immediate:
+
+> "single_hop dropped from 0.952 to 0.905. Reserving two of five slots for cross-document
+> hits takes those slots from somewhere, and two questions lost their correct citation at
+> rank 4 or 5. I took the trade because on this corpus the realistic questions span a local
+> rule and the federal regulation underneath it, and a confidently incomplete answer to a
+> cross-jurisdiction question is the worse failure. It is reversible — raise k, or drop to
+> one hop strategy."
+
+Refusing to acknowledge a cost reads as not having measured one.
+
+## Still to shore up
+
+- [ ] Explain why reserved slots beat score-merging. (A stage-2 hit scores lower than a
+      good direct hit almost by construction, so merging by score would never surface it.)
+- [ ] Explain why a diversity cap / MMR would not have worked. (Other sources sit between
+      rank 5 and rank 28; capping per source still never reaches it.)
+- [ ] Explain why hybrid BM25 does not bridge this gap. ("80 percent" vs "eighty percent";
+      "impact ratio" appears nowhere in UGESP.)
+- [ ] Two failures remain, both single_hop — know which and why.

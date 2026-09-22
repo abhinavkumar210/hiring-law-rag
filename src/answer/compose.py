@@ -125,7 +125,10 @@ def compose(question: str, index: Index, k: int = 5) -> Answer:
     if is_legal_advice(question):
         return refuse(question, ADVICE_REFUSAL)
 
-    results: list[Result] = index.search(question, k=k)
+    # Two-stage retrieval by default: measured +0.094 overall correctness,
+    # and it is the only configuration where cross-document questions work
+    # at all. See ADR 0008.
+    results: list[Result] = index.search_multihop(question, k=k)
     if index.should_abstain(results):
         return refuse(question, OUT_OF_SCOPE_REFUSAL)
 
