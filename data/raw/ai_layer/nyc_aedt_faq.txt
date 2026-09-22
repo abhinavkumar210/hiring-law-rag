@@ -1,0 +1,313 @@
+1 of 6 
+ 
+06/29/2023 
+ 
+ 
+Automated Employment Decision Tools: 
+Frequently Asked Questions  
+ 
+The NYC Department of Consumer and Worker Protection (DCWP) enforces Local Law 144 of 2021 
+which regulates automated employment decision tools. These FAQ provide general information and 
+guidance. Sections include: 
+ 
+I. Overview of the Law 
+II. General Bias Audit Requirements 
+III. Data Requirements 
+IV. Independent Auditors 
+V. Responsibility for Bias Audits 
+VI. Notice Requirements 
+VII. Complaints 
+ 
+I. Overview of the Law 
+ 
+1. What is Local Law 144 of 2021? 
+The Law prohibits employers and employment agencies from using an automated employment decision 
+tool (AEDT) in New York City unless they ensure a bias audit was done and provide required notices. 
+ 
+The Law was enacted in 2021. It took effect on January 1, 2023. Enforcement begins on July 5, 2023. 
+ 
+2. What is an AEDT? 
+An AEDT is a computer-based tool that:  
+ 
+• Uses machine learning, statistical modeling, data analytics, or artificial intelligence. AND 
+• Helps employers and employment agencies make employment decisions. AND 
+• Substantially assists or replaces discretionary decision-making. 
+ 
+3. How can you tell if a tool uses machine learning, statistical modeling, data analytics, or 
+artificial intelligence?  
+Machine learning, statistical modeling, data analytics, or artificial intelligence are mathematical, 
+computer-based techniques used to: 
+ 
+• Generate a prediction or a classification. AND 
+• Identify the inputs, the relative importance of the identified inputs, and any other parameters to 
+improve the accuracy of the generated prediction or classification. 
+ 
+A prediction includes but is not limited to an assessment of a candidate’s fit for the job or likelihood of 
+success. 
+ 
+A classification is an assignment of an observation to a group, such as categorizations based on skill 
+sets or aptitude. 
+ 
+See The Rules of the City of New York1 for additional guidance.  
+ 
+1 Visit https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCrules/0-0-0-138393 
+
+
+2 of 6 
+ 
+06/29/2023 
+4. What are the Law’s requirements and how do they apply to an AEDT used “in the city”? 
+ 
+The Law applies only to employers and employment agencies that use an AEDT “in the city.” This 
+means: 
+ 
+• The job location is an office in NYC, at least part time. OR  
+• The job is fully remote but the location associated with it is an office in NYC. OR 
+• The location of the employment agency using the AEDT is NYC or, if the location of the 
+employment agency is outside NYC, one of the bullets above is true. 
+ 
+If the Law applies: 
+ 
+• A bias audit of the AEDT must be completed before its use. AND 
+• Job candidates who are New York City residents must receive notice that the employer or 
+employment agency uses an AEDT.  
+ 
+5. Is an “employment decision” just the final hiring or promotion decision? 
+No. The Law defines employment decision more broadly to include screening.  
+ 
+If employers or employment agencies use an AEDT to substantially help them assess or screen 
+candidates at any point in the hiring or promotion process, they must comply with the Law’s requirements 
+before using an AEDT. 
+ 
+6. Do the Law’s requirements apply if an employer or employment agency uses an AEDT to scan 
+a resume bank, conduct outreach to potential candidates, or invite applications?  
+No. The requirements apply to AEDT use to assess candidates for hiring or promotion only. A candidate 
+for employment is a person who has applied for a specific position by submitting the necessary 
+information or items in the format required by the employer or employment agency.  
+ 
+If AEDT use is to assess someone who is not an employee being considered for promotion and who has 
+not applied for a specific position for employment, the bias audit and notice requirements do not apply. 
+ 
+II. General Bias Audit Requirements 
+ 
+1. What is a bias audit? 
+A bias audit is an impartial evaluation by an independent auditor. 
+ 
+At a minimum, an independent auditor’s evaluation must include calculations of selection or scoring rates 
+and the impact ratio across sex categories, race/ethnicity categories, and intersectional categories.   
+ 
+See The Rules of the City of New York2 for examples of what must be in a bias audit. 
+ 
+2. Do employers and employment agencies have to stop using an AEDT if the results of a bias 
+audit seem to indicate a disparate impact? 
+The Law requires employers and employment agencies to do a bias audit; however, the Law does not 
+require any specific actions based on the results of a bias audit.  
+ 
+Important: Federal, state, and New York City laws prohibit discrimination. Employers and employment 
+agencies must comply with all relevant Anti-Discrimination laws and rules to determine any necessary 
+actions based on the results of a bias audit.  
+ 
+Visit nyc.gov/humanrights for more information about the NYC Human Rights Law.  
+ 
+ 
+2 Visit https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCrules/0-0-0-138530  
+
+3 of 6 
+ 
+06/29/2023 
+3. Do employers and employment agencies have to publicly share the results of a bias audit? 
+Yes. Employers and employment agencies must publish: 
+ 
+• A summary of the results of the most recent bias audit. AND  
+• The distribution date of the AEDT.  
+ 
+Distribution date is the date employers and employment agencies began using the AEDT. 
+ 
+They can: 
+ 
+• Post this information on the employment section of their website. AND/OR  
+• Provide an active hyperlink to a website with this information.  
+ 
+The summary of results must include: 
+ 
+• The date of the most recent bias audit of the AEDT. AND  
+• The source and explanation of the data used to conduct the bias audit. AND 
+• The number of individuals the AEDT assessed that fall within an unknown category. AND 
+• The number of applicants or candidates, the selection or scoring rates, as applicable, and the 
+impact ratios for all categories. 
+  
+4. How often must employers and employment agencies perform a bias audit? 
+Every year. Employers and employment agencies can only rely on a bias audit for one year from the date 
+it was conducted. To be able to use an AEDT, they must ensure the AEDT has had a bias audit within the 
+past year.  
+ 
+III. Data Requirements 
+ 
+1. What data should employers and employment agencies use to conduct a bias audit? 
+Historical data of the AEDT must be used to conduct a bias audit. “Historical data” is the data collected 
+during an employer’s or employment agency’s use of an AEDT to assess candidates for employment or 
+employees for promotion. 
+ 
+There are exceptions for test data. See the FAQ that follow. 
+ 
+2. Can a bias audit use historical data from another employer’s or employment agency’s use of 
+the same AEDT? 
+Yes. A bias audit can use the historical data of multiple employers or employment agencies that use the 
+same AEDT; however, employers and employment agencies can only rely on it if:  
+ 
+• They provided historical data from their use of the AEDT to the independent auditor conducting 
+the bias audit. OR  
+• It is the first time they are using the AEDT.  
+ 
+3. Can employers and employment agencies limit the historical data—for example, time 
+periods—used for a bias audit? 
+The Law has no specific requirement about the historical data used for a bias audit. However, the 
+summary of the results of a bias audit must include the source and explanation of the data used to 
+conduct the bias audit. If the historical data was limited in any way, including to a specific region or time 
+period, the audit should explain why.  
+ 
+ 
+ 
+
+4 of 6 
+ 
+06/29/2023 
+4. Can companies that hire for different positions rely on a bias audit based on the historical 
+data of multiple employers or employment agencies?  
+Yes. However, companies can only rely on it if: 
+ 
+• They provided historical data from their use of the AEDT to the independent auditor conducting 
+the bias audit. OR 
+• It is the first time they are using the AEDT. 
+ 
+There is no additional requirement that the companies providing historical data used the AEDT to hire or 
+promote for the same type of position.  
+ 
+5. What should employers and employment agencies do if they do not collect demographic data 
+from applicants or if they have minimal historical data from their use of an AEDT?  
+If there is insufficient historical data available to conduct a statistically significant bias audit, test data can 
+be used to conduct a bias audit.   
+ 
+See The Rules of the City of New York3 for specific examples of data use.  
+ 
+6. Can employers and employment agencies impute4 demographic information to applicants or 
+use algorithmic software to infer it? 
+No. Imputed or inferred data cannot be used to conduct a bias audit. 
+ 
+Historical data must be used to conduct a bias audit. Historical data is data collected during an 
+employer’s or employment agency’s use of an AEDT to assess candidates for employment or employees 
+for promotion. 
+ 
+If there is insufficient historical data available to conduct a statistically significant bias audit, the following 
+can be used to conduct a bias audit: 
+ 
+• Historical data of other employers or employment agencies. OR  
+• Test data. 
+ 
+7. What is a “statistically significant bias audit”?    
+DCWP has not set a specific requirement for statistical significance. If an independent auditor determines 
+there is insufficient historical data to conduct a statistically significant bias audit, test data may be used to 
+conduct the bias audit. The summary of results of the bias audit must explain why test data was used 
+and include the source and description of the data.  
+ 
+8. What are the requirements for test data?  
+To allow for flexibility and development of best practices in this rapidly developing field, DCWP has not 
+set requirements for test data. However, the summary of results of the bias audit must include the source 
+and explanation of the data used to conduct the bias audit. In addition, if the bias audit used test data, 
+the summary should explain how the data was sourced or developed.  
+ 
+9. When can the calculations in a bias audit exclude a sex, race/ethnicity, or intersectional 
+category?    
+If a category represents less than 2% of the data used for the bias audit, it can be excluded from the 
+required calculations. However, the calculations must include all other categories.  
+ 
+Note: The requirements for the bias audit are minimum requirements. An independent auditor can 
+provide further explanation of the data or calculations.  
+ 
+ 
+3 Visit https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCrules/0-0-0-138529 
+4 In statistics, imputation is the process of replacing missing data with substituted values.  
+
+5 of 6 
+ 
+06/29/2023 
+IV. Independent Auditors 
+ 
+1. Does DCWP have a list of approved independent auditors? 
+No. The Law does not require independent auditors to be approved by DCWP . 
+ 
+2. Who can be an independent auditor? 
+An independent auditor is someone who exercises objective and impartial judgment in the performance 
+of a bias audit.   
+ 
+Auditors are NOT independent if they:  
+ 
+• Work for the employer or employment agency that will use the AEDT or the vendor that 
+developed or distributes the AEDT. OR 
+• Were involved in using, developing, or distributing the AEDT regardless of where they work 
+currently. OR 
+• Have a direct financial interest or a material indirect financial interest in the employer or 
+employment agency that will use the AEDT or the vendor that developed or distributed the AEDT.  
+ 
+V. Responsibility for Bias Audits 
+ 
+1. Who is responsible for complying with the Law's bias audit requirement? 
+Employers and employment agencies are responsible for ensuring they do not use an AEDT unless a 
+bias audit was done.  
+ 
+The vendor that created the AEDT is not responsible for a bias audit of the tool. 
+ 
+2. Can a vendor do a bias audit of its own tool?  
+Yes. A vendor can have an independent auditor do a bias audit of its tool. The Law does not prohibit a 
+vendor from having a bias audit done or coordinating the collection of data to use to conduct a bias audit. 
+ 
+Important: Employers and employment agencies are ultimately responsible for ensuring a bias audit was 
+done before using an AEDT.  
+ 
+VI. Notice Requirements 
+ 
+1. How must employers and employment agencies provide notice of AEDT use? 
+Employers and employment agencies must notify employees and job candidates who are residents of 
+New York City that they are using an AEDT and the job qualifications or characteristics the AEDT will 
+assess. Employers and employment agencies must:  
+ 
+• Include in the notice instructions to request a reasonable accommodation under other laws. AND 
+• Provide the notice 10 business days before using an AEDT. AND 
+• Provide the notice in a job posting or by mail or email. Note: 
+o For job applicants: As an alternative, employers and employment agencies can provide notice 
+on the employment section of their website. Notice on a website does not have to be position-
+specific. 
+o For candidates for promotion: As an alternative, employers and employment agencies can 
+include notice in a written policy or procedure. Notice provided in this way does not have to be 
+position-specific. 
+ 
+2. If employers and employment agencies provide notice on their website, when can they start 
+using an AEDT to assess applicants for a position? 
+Employers and employment agencies can begin using an AEDT 10 business days after posting notice on 
+their website regardless of when a specific job posted. 
+
+6 of 6 
+ 
+06/29/2023 
+VII. Complaints 
+ 
+1. How can someone make a complaint about violations of the Law? 
+To submit a complaint, contact 311 or visit the DCWP website at nyc.gov/dcwp. 
+ 
+Complaints should include all of the following: 
+ 
+• Details of the job posting or position  
+• Name and type of AEDT 
+• Notice provided, if any  
+• Explanation of suspected violation (for example, AEDT used without notice) 
+ 
+2. How will DCWP handle discrimination complaints involving AEDT use? 
+DCWP enforces the Law’s prohibition on AEDT use without a bias audit and required notices. 
+ 
+Claims of discrimination involving AEDT use should go to the NYC Commission on Human Rights 
+(Commission) which enforces the NYC Human Rights Law. 
+ 
+DCWP will refer any claims of discrimination to the Commission. 
+ 
+ 
+ 

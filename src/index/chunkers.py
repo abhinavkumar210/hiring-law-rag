@@ -24,6 +24,33 @@ from ingest.parse_ecfr import Unit
 # Separator between a chunk header and its body.
 PARA = chr(10) * 2
 
+# Ordering for citations on a merged chunk: the provision governing the largest
+# population leads, then narrower ones. 29 CFR 1607 reaches essentially every
+# covered employer through Title VII; 41 CFR 60-3 reaches only federal
+# contractors, so 1607 leads even though it sorts later alphabetically.
+#
+# This is ordering, not filtering. ADR 0004 rejected filtering by jurisdiction
+# because it hides obligations that genuinely apply; ordering hides nothing, it
+# just leads with the citation most readers need first.
+CITATION_SCOPE = [
+    ("29 CFR", 0),    # EEOC: Title VII, ADA, ADEA - all covered employers
+    ("41 CFR", 1),    # OFCCP: federal contractors only
+]
+STATE_OR_LOCAL_SCOPE = 2
+
+
+def citation_scope(citation: str) -> int:
+    """Lower means broader applicability, so it sorts first."""
+    for prefix, rank in CITATION_SCOPE:
+        if citation.startswith(prefix):
+            return rank
+    return STATE_OR_LOCAL_SCOPE
+
+
+def order_citations(citations: list[str]) -> list[str]:
+    """Broadest first; alphabetical within a scope so ordering is stable."""
+    return sorted(citations, key=lambda c: (citation_scope(c), c))
+
 try:  # pragma: no cover - depends on environment
     import tiktoken
 
@@ -178,6 +205,7 @@ def deduplicate(chunks: list[Chunk]) -> list[Chunk]:
         if len(c.citations) > 1:
             # Rebuild the header so every citation is inside the embedded text,
             # not just the one that happened to be seen first.
+            c.citations = order_citations(c.citations)
             cites = "; ".join(c.citations)
             first_line = c.embed_text.split(PARA, 1)[0]
             heading = first_line.rsplit("|", 1)[0].strip()

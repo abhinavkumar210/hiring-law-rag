@@ -143,3 +143,26 @@ def test_withdrawn_status_is_embedded_in_the_chunk():
     for c in structural(withdrawn):
         assert "STATUS: WITHDRAWN" in c.embed_text
         assert c.status == "WITHDRAWN"
+
+
+def test_merged_citations_lead_with_the_broader_regulation():
+    """29 CFR 1607 reaches all covered employers; 41 CFR 60-3 only contractors.
+
+    Alphabetically "41 CFR" sorts first, so this asserts the scope rule is
+    actually applied rather than a default sort accidentally passing.
+    """
+    from index.chunkers import deduplicate, order_citations
+
+    assert order_citations(["41 CFR 60-3.4(D)", "29 CFR 1607.4(D)"]) == [
+        "29 CFR 1607.4(D)",
+        "41 CFR 60-3.4(D)",
+    ]
+
+    ug = structural(parse_part(RAW / "ugesp.xml", "ugesp"))
+    of = structural(parse_part(RAW / "ofccp_60_3.xml", "ofccp_60_3"))
+    # feed OFCCP first so filename order would give the wrong answer
+    merged = deduplicate(of + ug)
+    four_fifths = [c for c in merged if "four-fifths" in c.body.lower()]
+    assert four_fifths
+    target = next(c for c in four_fifths if len(c.citations) > 1)
+    assert target.citations[0].startswith("29 CFR"), target.citations

@@ -1,0 +1,4 @@
+<error>
+  <message>This endpoint requires response compression. Send an Accept-Encoding header that permits compression.</message>
+  <supportCode>11</supportCode>
+</error>

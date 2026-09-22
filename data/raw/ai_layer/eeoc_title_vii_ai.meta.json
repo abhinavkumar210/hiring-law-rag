@@ -1,0 +1,10 @@
+{
+  "id": "eeoc_title_vii_ai",
+  "kind": "pdf",
+  "jurisdiction": "US-federal",
+  "status": "WITHDRAWN",
+  "withdrawn_note": "Removed from eeoc.gov in January 2025. Archived copy. Included with status metadata because employers relied on it and state regimes still track its concepts. See ADR 0005.",
+  "name": "EEOC: Assessing Adverse Impact in Software, Algorithms, and AI Under Title VII (May 2023)",
+  "url": "https://data.aclum.org/storage/2025/01/EOCC_www_eeoc_gov_laws_guidance_select-issues-assessing-adverse-impact-software-algorithms-and-artificial.pdf",
+  "why": "The federal government's only direct statement on AI and disparate impact in hiring."
+}
