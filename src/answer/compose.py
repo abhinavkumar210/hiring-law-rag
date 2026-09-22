@@ -121,14 +121,29 @@ def refuse(question: str, reason: str) -> Answer:
     )
 
 
-def compose(question: str, index: Index, k: int = 5) -> Answer:
+def compose(
+    question: str,
+    index: Index,
+    k: int = 5,
+    results: list[Result] | None = None,
+) -> Answer:
+    """Compose an answer, optionally reusing an already-retrieved result set.
+
+    `results` exists so a caller that has already retrieved does not pay for it
+    twice. The evaluation harness needs both the ranked results (to score
+    retrieval) and the composed answer (to score refusal, which is decided
+    here rather than in the retriever) - and multihop retrieval costs five
+    embedding passes, so retrieving twice per question doubled the harness
+    runtime for nothing.
+    """
     if is_legal_advice(question):
         return refuse(question, ADVICE_REFUSAL)
 
     # Two-stage retrieval by default: measured +0.094 overall correctness,
     # and it is the only configuration where cross-document questions work
     # at all. See ADR 0008.
-    results: list[Result] = index.search_multihop(question, k=k)
+    if results is None:
+        results = index.search_multihop(question, k=k)
     if index.should_abstain(results):
         return refuse(question, OUT_OF_SCOPE_REFUSAL)
 

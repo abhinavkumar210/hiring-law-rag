@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   test:
@@ -40,11 +41,14 @@ jobs:
         run: python scripts/inject_failures.py
 
   evaluate:
-    # Retrieval evaluation needs the built index, which means downloading model
-    # weights and embedding 754 chunks. Kept separate so it can be run
-    # deliberately rather than on every push.
+    # Retrieval evaluation needs the built index: ~50 min to embed 754 chunks on
+    # CPU, plus ~8 min for the harness, because multihop retrieval costs five
+    # embedding passes per question. An hour per pull request is not a cost
+    # anyone will absorb, so this job is manual (workflow_dispatch) rather than
+    # automatic, and the gate logic itself is unit-tested in the fast job above
+    # so a broken gate still fails on every push.
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v4
 
