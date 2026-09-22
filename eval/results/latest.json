@@ -9,7 +9,7 @@
       "correct": 0.9375,
       "hit@k": 0.9286,
       "recall@k": 0.9286,
-      "mrr": 0.7315,
+      "mrr": 0.7375,
       "abstain_rate": 1.0
     },
     "by_type": {
@@ -42,7 +42,7 @@
         "correct": 0.9048,
         "hit@k": 0.9048,
         "recall@k": 0.9048,
-        "mrr": 0.754
+        "mrr": 0.7619
       },
       "status_sensitive": {
         "n": 2,
@@ -63,10 +63,10 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.7612686157226562,
+      "top_score": 0.7642769813537598,
       "top_citations": [
-        "41 CFR 60-3.4(D)",
-        "29 CFR 1607.4(D)"
+        "29 CFR 1607.4(D)",
+        "41 CFR 60-3.4(D)"
       ],
       "withdrawn_in_top": true
     },
@@ -79,7 +79,7 @@
       "reciprocal_rank": 0.0,
       "abstained": false,
       "correct": false,
-      "top_score": 0.7436860799789429,
+      "top_score": 0.743553638458252,
       "top_citations": [
         "EEOC: Assessing Adverse Impact in Software, Algorithms, and AI Under Title VII (May 2023) \u00a7 42"
       ],
@@ -94,7 +94,7 @@
       "reciprocal_rank": 0.3333333333333333,
       "abstained": false,
       "correct": true,
-      "top_score": 0.8331613540649414,
+      "top_score": 0.8331853151321411,
       "top_citations": [
         "NYC DCWP AEDT Frequently Asked Questions \u00a7 2"
       ],
@@ -109,7 +109,7 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.7812332510948181,
+      "top_score": 0.7812095880508423,
       "top_citations": [
         "NYC DCWP Final Rules, Automated Employment Decision Tools (6 RCNY 5-300 et seq.) \u00a7 1"
       ],
@@ -169,10 +169,10 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.7687389850616455,
+      "top_score": 0.768317461013794,
       "top_citations": [
-        "41 CFR 60-3.16(G)",
-        "29 CFR 1607.16(G)"
+        "29 CFR 1607.16(G)",
+        "41 CFR 60-3.16(G)"
       ],
       "withdrawn_in_top": false
     },
@@ -200,7 +200,7 @@
       "reciprocal_rank": 0.2,
       "abstained": false,
       "correct": true,
-      "top_score": 0.8258743286132812,
+      "top_score": 0.8258206844329834,
       "top_citations": [
         "41 CFR 60-741.5(a)"
       ],
@@ -230,7 +230,7 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.800167441368103,
+      "top_score": 0.8001133799552917,
       "top_citations": [
         "EEOC: Assessing Adverse Impact in Software, Algorithms, and AI Under Title VII (May 2023) \u00a7 29"
       ],
@@ -245,10 +245,10 @@
       "reciprocal_rank": 0.0,
       "abstained": false,
       "correct": false,
-      "top_score": 0.8033897876739502,
+      "top_score": 0.8037526607513428,
       "top_citations": [
-        "41 CFR 60-3.6(B)",
-        "29 CFR 1607.6(B)"
+        "29 CFR 1607.6(B)",
+        "41 CFR 60-3.6(B)"
       ],
       "withdrawn_in_top": false
     },
@@ -258,10 +258,10 @@
       "question": "What is the bottom line concept in evaluating selection rates?",
       "hit": true,
       "recall": 1.0,
-      "reciprocal_rank": 0.3333333333333333,
+      "reciprocal_rank": 0.5,
       "abstained": false,
       "correct": true,
-      "top_score": 0.6542024612426758,
+      "top_score": 0.6545645594596863,
       "top_citations": [
         "EEOC: Assessing Adverse Impact in Software, Algorithms, and AI Under Title VII (May 2023) \u00a7 3"
       ],
@@ -291,7 +291,7 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.8270969390869141,
+      "top_score": 0.8270280361175537,
       "top_citations": [
         "29 CFR 1607.4(A)"
       ],
@@ -321,7 +321,7 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.8233506679534912,
+      "top_score": 0.8231233954429626,
       "top_citations": [
         "29 CFR 1630.10(a)"
       ],
@@ -336,7 +336,7 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.811795711517334,
+      "top_score": 0.8119248151779175,
       "top_citations": [
         "29 CFR 1630.11"
       ],
@@ -351,7 +351,7 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.7904406189918518,
+      "top_score": 0.7907519340515137,
       "top_citations": [
         "29 CFR 1630.14(b)"
       ],
@@ -366,7 +366,7 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.8176664113998413,
+      "top_score": 0.8177022933959961,
       "top_citations": [
         "29 CFR 1625.4(a)"
       ],
@@ -381,7 +381,7 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.812836766242981,
+      "top_score": 0.8128514289855957,
       "top_citations": [
         "29 CFR 1625.5"
       ],
@@ -411,7 +411,7 @@
       "reciprocal_rank": 0.5,
       "abstained": false,
       "correct": true,
-      "top_score": 0.8121377229690552,
+      "top_score": 0.8120900392532349,
       "top_citations": [
         "41 CFR 60-1.12(a)"
       ],
@@ -426,7 +426,7 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.8358079195022583,
+      "top_score": 0.8358093500137329,
       "top_citations": [
         "29 CFR 1602.13"
       ],
@@ -471,7 +471,7 @@
       "reciprocal_rank": 1.0,
       "abstained": false,
       "correct": true,
-      "top_score": 0.7834296226501465,
+      "top_score": 0.7838218212127686,
       "top_citations": [
         "NYC DCWP AEDT Frequently Asked Questions \u00a7 2"
       ],
@@ -501,7 +501,7 @@
       "reciprocal_rank": 0.0,
       "abstained": true,
       "correct": true,
-      "top_score": 0.7516705989837646,
+      "top_score": 0.751876950263977,
       "top_citations": [
         "29 CFR 1625.2"
       ],
@@ -531,7 +531,7 @@
       "reciprocal_rank": 0.0,
       "abstained": true,
       "correct": true,
-      "top_score": 0.5747343301773071,
+      "top_score": 0.5747720003128052,
       "top_citations": [
         "29 CFR 1604.2(b)"
       ],
