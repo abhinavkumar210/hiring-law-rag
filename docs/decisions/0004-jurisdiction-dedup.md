@@ -71,12 +71,30 @@ the design was looking for them.
 The four-fifths rule now resolves to a single chunk citing both
 `29 CFR 1607.4(D)` and `41 CFR 60-3.4(D)`.
 
-## Known limitation
+## Known limitation (RESOLVED 2026-09-22)
 
-Citations on a merged chunk are ordered by source filename, not by canonical relevance. The
-four-fifths chunk currently lists `41 CFR 60-3.4(D)` first, though `29 CFR 1607.4(D)` is the
-far more widely recognised citation and the correct lead for a general employer. Ordering
-needs a rule; none is obviously right yet, so this is recorded rather than guessed at.
+Citations on a merged chunk were ordered by source filename, so the four-fifths chunk listed
+`41 CFR 60-3.4(D)` before `29 CFR 1607.4(D)` though 1607 is the correct lead for a general
+employer.
+
+**Resolved: order by breadth of applicability.** The provision governing the largest
+population leads, then narrower ones. 29 CFR 1607 reaches essentially every covered employer
+through Title VII; 41 CFR 60-3 reaches only federal contractors.
+
+Alternatives rejected:
+
+- **Corpus frequency** — nothing to sort on; both citations appear exactly once per merged
+  chunk.
+- **Hard-coded precedence** — produces the right answer but cannot be justified when
+  questioned.
+- **Order by the querying user's jurisdiction** — good as a later *override*, but it cannot
+  be the base rule because user context is not always available. Worth noting it is safe as
+  ordering even though filtering was rejected above: filtering hides obligations that apply,
+  whereas ordering hides nothing.
+
+Breadth wins because it is a real rule stated in one sentence, generalises beyond the pair
+that happens to exist in this corpus, and degrades to a stable alphabetical sort within a
+scope.
 
 ## Consequences
 

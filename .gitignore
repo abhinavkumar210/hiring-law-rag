@@ -3,7 +3,10 @@ __pycache__/
 .venv/
 venv/
 .env
-data/raw/
+# data/raw/ IS committed: 1.3MB of public-domain government text. CI runs the
+# tests, the golden-set validator and failure injection against it, so a
+# gitignored corpus would fail every build. Derived vectors are not committed.
+data/processed/
 data/processed/
 *.sqlite
 .pytest_cache/

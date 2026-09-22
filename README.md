@@ -201,10 +201,6 @@ force.
   certificate verification to ingest a legal corpus is unacceptable) and the EU AI Act
   (EUR-Lex returns 202 with an empty body across retries). Both are recorded as
   `unresolved` in the manifest rather than quietly dropped.
-- **Merged citations are ordered by source filename, not canonical relevance.** The
-  four-fifths chunk currently lists `41 CFR 60-3.4(D)` before `29 CFR 1607.4(D)`, though
-  1607 is the better-known citation for a general employer. Ordering needs a rule and none
-  is obviously right yet.
 - **No case law.** Deliberate — judicial opinions need a separate ingestion path, and
   *Mobley v. Workday* is in active litigation, so ground truth would drift underneath the
   golden set. ([ADR 0001](docs/decisions/0001-corpus-scope.md))
