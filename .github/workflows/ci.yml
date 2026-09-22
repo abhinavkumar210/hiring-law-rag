@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install CPU torch first
+        # The default torch wheel pulls ~2.5GB of CUDA libraries that this
+        # project never uses. Installing the CPU build explicitly keeps CI
+        # minutes and cache size sane.
+        run: pip install --index-url https://download.pytorch.org/whl/cpu torch
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Unit tests
+        # These need the raw corpus but not the vector index, so they run
+        # without the expensive embedding step.
+        run: pytest tests/ -q
+
+      - name: Validate golden set against corpus
+        # Catches a golden question referencing a citation that is not in the
+        # corpus, which would otherwise look like a retrieval bug forever.
+        run: python scripts/validate_golden.py
+
+      - name: Failure injection
+        # Guardrail invariants must hold on every commit.
+        run: python scripts/inject_failures.py
+
+  evaluate:
+    # Retrieval evaluation needs the built index, which means downloading model
+    # weights and embedding 754 chunks. Kept separate so it can be run
+    # deliberately rather than on every push.
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install --index-url https://download.pytorch.org/whl/cpu torch
+      - run: pip install -r requirements.txt
+
+      - name: Cache model weights
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-gte-modernbert-base
+
+      - name: Build index
+        run: python src/index/build_index.py
+
+      - name: Run evaluation harness
+        # Exits non-zero if any metric regresses beyond tolerance against the
+        # committed baseline, so retrieval quality fails CI like a broken test.
+        run: python src/eval/harness.py -k 5
+
+      - name: Upload evaluation results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results
+          path: eval/results/latest.json

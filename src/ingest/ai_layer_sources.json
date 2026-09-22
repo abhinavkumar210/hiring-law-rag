@@ -1,0 +1,61 @@
+{
+  "sources": [
+    {
+      "id": "nyc_ll144_rules",
+      "kind": "pdf",
+      "jurisdiction": "NYC",
+      "status": "in_force",
+      "name": "NYC DCWP Final Rules, Automated Employment Decision Tools (6 RCNY 5-300 et seq.)",
+      "url": "https://rules.cityofnewyork.us/wp-content/uploads/2023/04/DCWP-NOA-for-Use-of-Automated-Employment-Decisionmaking-Tools-2.pdf",
+      "why": "Implements Local Law 144. Defines bias audit and impact ratio without stating an acceptable threshold."
+    },
+    {
+      "id": "nyc_aedt_faq",
+      "kind": "pdf",
+      "jurisdiction": "NYC",
+      "status": "in_force",
+      "name": "NYC DCWP AEDT Frequently Asked Questions",
+      "url": "https://www.nyc.gov/assets/dca/downloads/pdf/about/DCWP-AEDT-FAQ.pdf",
+      "why": "Agency interpretation of LL144 obligations."
+    },
+    {
+      "id": "eeoc_title_vii_ai",
+      "kind": "pdf",
+      "jurisdiction": "US-federal",
+      "status": "WITHDRAWN",
+      "withdrawn_note": "Removed from eeoc.gov in January 2025. Archived copy. Included with status metadata because employers relied on it and state regimes still track its concepts. See ADR 0005.",
+      "name": "EEOC: Assessing Adverse Impact in Software, Algorithms, and AI Under Title VII (May 2023)",
+      "url": "https://data.aclum.org/storage/2025/01/EOCC_www_eeoc_gov_laws_guidance_select-issues-assessing-adverse-impact-software-algorithms-and-artificial.pdf",
+      "why": "The federal government's only direct statement on AI and disparate impact in hiring."
+    },
+    {
+      "id": "il_aivia",
+      "kind": "html",
+      "jurisdiction": "IL",
+      "status": "unresolved",
+      "name": "Illinois Artificial Intelligence Video Interview Act (820 ILCS 42)",
+      "url": "https://www.ilga.gov/Legislation/ILCS/Articles?ActID=4015&ChapterID=68&Print=True",
+      "why": "Notice and consent obligations for AI analysis of video interviews.",
+      "unresolved_note": "UNRESOLVED 2026-09-22: www.ilga.gov serves an incomplete TLS certificate chain (fails certifi and the OS trust store) and returns 403 to direct requests. Not worked around: disabling certificate verification to ingest a legal corpus is not acceptable."
+    },
+    {
+      "id": "co_sb24_205",
+      "kind": "pdf",
+      "jurisdiction": "CO",
+      "status": "in_force",
+      "name": "Colorado SB 24-205, Consumer Protections for Artificial Intelligence",
+      "url": "https://leg.colorado.gov/sites/default/files/2024a_205_signed.pdf",
+      "why": "High-risk AI duties; employment is an enumerated consequential decision."
+    },
+    {
+      "id": "eu_ai_act",
+      "kind": "html",
+      "jurisdiction": "EU",
+      "status": "unresolved",
+      "name": "EU AI Act, Regulation (EU) 2024/1689",
+      "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32024R1689",
+      "why": "Annex III classifies employment and worker management as high-risk.",
+      "unresolved_note": "UNRESOLVED 2026-09-22: EUR-Lex returns 202 Accepted with an empty body on both HTML and PDF endpoints across retries with backoff. Likely server-side rate limiting."
+    }
+  ]
+}
