@@ -1,0 +1,541 @@
+{
+  "k": 5,
+  "multihop": true,
+  "model": "Alibaba-NLP/gte-modernbert-base",
+  "n_chunks": 754,
+  "summary": {
+    "overall": {
+      "n": 32,
+      "correct": 0.9375,
+      "hit@k": 0.9286,
+      "recall@k": 0.9286,
+      "mrr": 0.7315,
+      "abstain_rate": 1.0
+    },
+    "by_type": {
+      "cross_document": {
+        "n": 2,
+        "correct": 1.0,
+        "hit@k": 1.0,
+        "recall@k": 1.0,
+        "mrr": 0.625
+      },
+      "jurisdiction": {
+        "n": 3,
+        "correct": 1.0,
+        "hit@k": 1.0,
+        "recall@k": 1.0,
+        "mrr": 0.4667
+      },
+      "out_of_scope": {
+        "n": 2,
+        "correct": 1.0,
+        "abstain_rate": 1.0
+      },
+      "refusal": {
+        "n": 2,
+        "correct": 1.0,
+        "abstain_rate": 1.0
+      },
+      "single_hop": {
+        "n": 21,
+        "correct": 0.9048,
+        "hit@k": 0.9048,
+        "recall@k": 0.9048,
+        "mrr": 0.754
+      },
+      "status_sensitive": {
+        "n": 2,
+        "correct": 1.0,
+        "hit@k": 1.0,
+        "recall@k": 1.0,
+        "mrr": 1.0
+      }
+    }
+  },
+  "questions": [
+    {
+      "id": "ff-001",
+      "type": "single_hop",
+      "question": "What selection rate difference is treated as evidence of adverse impact?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.7612686157226562,
+      "top_citations": [
+        "41 CFR 60-3.4(D)",
+        "29 CFR 1607.4(D)"
+      ],
+      "withdrawn_in_top": true
+    },
+    {
+      "id": "ff-002",
+      "type": "single_hop",
+      "question": "Is the four-fifths rule an absolute legal threshold?",
+      "hit": false,
+      "recall": 0.0,
+      "reciprocal_rank": 0.0,
+      "abstained": false,
+      "correct": false,
+      "top_score": 0.7436860799789429,
+      "top_citations": [
+        "EEOC: Assessing Adverse Impact in Software, Algorithms, and AI Under Title VII (May 2023) \u00a7 42"
+      ],
+      "withdrawn_in_top": true
+    },
+    {
+      "id": "ll144-001",
+      "type": "single_hop",
+      "question": "What must a bias audit calculate under New York City's AEDT rules?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.8331613540649414,
+      "top_citations": [
+        "NYC DCWP AEDT Frequently Asked Questions \u00a7 2"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "ll144-002",
+      "type": "cross_document",
+      "question": "My NYC hiring tool has an impact ratio of 0.72. Does it pass the bias audit?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.7812332510948181,
+      "top_citations": [
+        "NYC DCWP Final Rules, Automated Employment Decision Tools (6 RCNY 5-300 et seq.) \u00a7 1"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "ll144-003",
+      "type": "cross_document",
+      "question": "Where does the 80 percent benchmark used in NYC bias audits come from?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 0.25,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.7343531847000122,
+      "top_citations": [
+        "NYC DCWP Final Rules, Automated Employment Decision Tools (6 RCNY 5-300 et seq.) \u00a7 1"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "ll144-004",
+      "type": "single_hop",
+      "question": "Who must be notified before an automated employment decision tool is used in New York City?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.8268075585365295,
+      "top_citations": [
+        "NYC DCWP Final Rules, Automated Employment Decision Tools (6 RCNY 5-300 et seq.)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "ll144-005",
+      "type": "single_hop",
+      "question": "How recent must a bias audit be for an employer to rely on it in New York City?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.8172621726989746,
+      "top_citations": [
+        "NYC DCWP Final Rules, Automated Employment Decision Tools (6 RCNY 5-300 et seq.) \u00a7 1"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "juris-001",
+      "type": "jurisdiction",
+      "question": "I am a federal contractor. Which rules govern my employee selection procedures?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.7687389850616455,
+      "top_citations": [
+        "41 CFR 60-3.16(G)",
+        "29 CFR 1607.16(G)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "juris-002",
+      "type": "jurisdiction",
+      "question": "What are a federal contractor's affirmative action obligations?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 0.2,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.812106728553772,
+      "top_citations": [
+        "41 CFR 60-741.43"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "juris-003",
+      "type": "jurisdiction",
+      "question": "What is the equal opportunity clause a federal contract must include?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 0.2,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.8258743286132812,
+      "top_citations": [
+        "41 CFR 60-741.5(a)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "status-001",
+      "type": "status_sensitive",
+      "question": "What does the EEOC say about assessing adverse impact in AI hiring tools?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.8644967079162598,
+      "top_citations": [
+        "EEOC: Assessing Adverse Impact in Software, Algorithms, and AI Under Title VII (May 2023)"
+      ],
+      "withdrawn_in_top": true
+    },
+    {
+      "id": "status-002",
+      "type": "status_sensitive",
+      "question": "Is there current federal guidance specifically on AI and disparate impact in hiring?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.800167441368103,
+      "top_citations": [
+        "EEOC: Assessing Adverse Impact in Software, Algorithms, and AI Under Title VII (May 2023) \u00a7 29"
+      ],
+      "withdrawn_in_top": true
+    },
+    {
+      "id": "ugesp-001",
+      "type": "single_hop",
+      "question": "When must an employer validate a selection procedure?",
+      "hit": false,
+      "recall": 0.0,
+      "reciprocal_rank": 0.0,
+      "abstained": false,
+      "correct": false,
+      "top_score": 0.8033897876739502,
+      "top_citations": [
+        "41 CFR 60-3.6(B)",
+        "29 CFR 1607.6(B)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "ugesp-002",
+      "type": "single_hop",
+      "question": "What is the bottom line concept in evaluating selection rates?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.6542024612426758,
+      "top_citations": [
+        "EEOC: Assessing Adverse Impact in Software, Algorithms, and AI Under Title VII (May 2023) \u00a7 3"
+      ],
+      "withdrawn_in_top": true
+    },
+    {
+      "id": "ugesp-003",
+      "type": "single_hop",
+      "question": "If a validated alternative with less adverse impact exists, what should an employer do?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.7524123191833496,
+      "top_citations": [
+        "29 CFR 1607.6(A)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "ugesp-004",
+      "type": "single_hop",
+      "question": "What records must be kept about the impact of selection procedures?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.8270969390869141,
+      "top_citations": [
+        "29 CFR 1607.4(A)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "ugesp-005",
+      "type": "single_hop",
+      "question": "Does an employer need a validity study when there is no adverse impact?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 0.3333333333333333,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.7518585920333862,
+      "top_citations": [
+        "29 CFR 1607.7(D)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "ada-001",
+      "type": "single_hop",
+      "question": "Can an employer use a test that screens out individuals with disabilities?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.8233506679534912,
+      "top_citations": [
+        "29 CFR 1630.10(a)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "ada-002",
+      "type": "single_hop",
+      "question": "How must employment tests be administered for applicants with sensory or speaking impairments?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.811795711517334,
+      "top_citations": [
+        "29 CFR 1630.11"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "ada-003",
+      "type": "single_hop",
+      "question": "When may an employer require a medical examination of an applicant?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.7904406189918518,
+      "top_citations": [
+        "29 CFR 1630.14(b)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "adea-001",
+      "type": "single_hop",
+      "question": "Can a job advertisement state an age preference?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.8176664113998413,
+      "top_citations": [
+        "29 CFR 1625.4(a)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "adea-002",
+      "type": "single_hop",
+      "question": "May an employment application ask for date of birth?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.812836766242981,
+      "top_citations": [
+        "29 CFR 1625.5"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "adea-003",
+      "type": "single_hop",
+      "question": "What is a reasonable factor other than age?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.7770883440971375,
+      "top_citations": [
+        "29 CFR 1625.7(b)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "rec-001",
+      "type": "single_hop",
+      "question": "How long must an employer preserve personnel and selection records?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 0.5,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.8121377229690552,
+      "top_citations": [
+        "41 CFR 60-1.12(a)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "rec-002",
+      "type": "single_hop",
+      "question": "What records about racial or ethnic identity may an employer keep?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.8358079195022583,
+      "top_citations": [
+        "29 CFR 1602.13"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "co-001",
+      "type": "single_hop",
+      "question": "What duties does Colorado impose on developers of high-risk AI systems?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.8132439851760864,
+      "top_citations": [
+        "Colorado SB 24-205, Consumer Protections for Artificial Intelligence \u00a7 6-1-1704"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "co-002",
+      "type": "single_hop",
+      "question": "Is employment a consequential decision under Colorado's AI law?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.7642305493354797,
+      "top_citations": [
+        "Colorado SB 24-205, Consumer Protections for Artificial Intelligence \u00a7 6-1-1703"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "faq-001",
+      "type": "single_hop",
+      "question": "Does an employer or the vendor have to commission the NYC bias audit?",
+      "hit": true,
+      "recall": 1.0,
+      "reciprocal_rank": 1.0,
+      "abstained": false,
+      "correct": true,
+      "top_score": 0.7834296226501465,
+      "top_citations": [
+        "NYC DCWP AEDT Frequently Asked Questions \u00a7 2"
+      ],
+      "withdrawn_in_top": true
+    },
+    {
+      "id": "refuse-001",
+      "type": "refusal",
+      "question": "Should I settle the discrimination lawsuit that was filed against my company?",
+      "hit": false,
+      "recall": 0.0,
+      "reciprocal_rank": 0.0,
+      "abstained": true,
+      "correct": true,
+      "top_score": 0.6539031267166138,
+      "top_citations": [
+        "41 CFR 60-741.42(g)"
+      ],
+      "withdrawn_in_top": true
+    },
+    {
+      "id": "refuse-002",
+      "type": "refusal",
+      "question": "Will I win if I sue my employer for age discrimination?",
+      "hit": false,
+      "recall": 0.0,
+      "reciprocal_rank": 0.0,
+      "abstained": true,
+      "correct": true,
+      "top_score": 0.7516705989837646,
+      "top_citations": [
+        "29 CFR 1625.2"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "oos-001",
+      "type": "out_of_scope",
+      "question": "What is the minimum wage in New Jersey?",
+      "hit": false,
+      "recall": 0.0,
+      "reciprocal_rank": 0.0,
+      "abstained": true,
+      "correct": true,
+      "top_score": 0.6020014882087708,
+      "top_citations": [
+        "29 CFR 1630.2(d)"
+      ],
+      "withdrawn_in_top": false
+    },
+    {
+      "id": "oos-002",
+      "type": "out_of_scope",
+      "question": "How do I calculate overtime pay for a salaried employee?",
+      "hit": false,
+      "recall": 0.0,
+      "reciprocal_rank": 0.0,
+      "abstained": true,
+      "correct": true,
+      "top_score": 0.5747343301773071,
+      "top_citations": [
+        "29 CFR 1604.2(b)"
+      ],
+      "withdrawn_in_top": false
+    }
+  ]
+}

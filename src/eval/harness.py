@@ -36,6 +36,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
 
+from answer.compose import compose  # noqa: E402
 from retrieve.search import Index, Result  # noqa: E402
 
 GOLDEN = ROOT / "eval" / "golden" / "questions.jsonl"
@@ -80,10 +81,22 @@ class QuestionScore:
     withdrawn_in_top: bool
 
 
-def score_question(item: dict, index: Index, k: int) -> QuestionScore:
-    results = index.search(item["question"], k=k)
-    abstained = index.should_abstain(results)
+def score_question(
+    item: dict, index: Index, k: int, multihop: bool = False
+) -> QuestionScore:
+    results = (
+        index.search_multihop(item["question"], k=k)
+        if multihop
+        else index.search(item["question"], k=k)
+    )
     expected = item.get("expect", [])
+
+    # Declining is decided by the composer, not by the retriever. The similarity
+    # threshold catches out-of-scope questions, but legal-advice questions are
+    # refused by pattern match *before* retrieval runs - so asking the index
+    # alone whether it would abstain measures the wrong layer and scores every
+    # refusal item as a failure. Compose is the real system boundary.
+    abstained = compose(item["question"], index, k=k).refused
 
     if item["type"] in ABSTAIN_TYPES:
         # Correct behaviour is to decline. No evidence is expected.
@@ -224,18 +237,22 @@ def render(scores: list[QuestionScore], summary: dict, k: int) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("-k", type=int, default=5, help="retrieval depth")
+    ap.add_argument("--no-multihop", dest="multihop", action="store_false",
+                    help="disable two-stage retrieval (single-stage baseline)")
+    ap.set_defaults(multihop=True)
     ap.add_argument("--set-baseline", action="store_true",
                     help="write this run as the regression baseline")
     args = ap.parse_args()
 
     index = Index.load()
     golden = load_golden()
-    scores = [score_question(item, index, args.k) for item in golden]
+    scores = [score_question(item, index, args.k, args.multihop) for item in golden]
     summary = aggregate(scores)
 
     RESULTS.mkdir(parents=True, exist_ok=True)
     payload = {
         "k": args.k,
+        "multihop": args.multihop,
         "model": index.meta.get("model"),
         "n_chunks": index.meta.get("n_chunks"),
         "summary": summary,

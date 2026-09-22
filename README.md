@@ -113,11 +113,40 @@ Results are written to `eval/results/latest.json` and compared against a committ
 baseline. Any metric dropping more than 2 points exits non-zero, so a retrieval regression
 fails CI the way a broken test does.
 
-<!-- RESULTS -->
+### Measured results
+
+`gte-modernbert-base`, 754 chunks, k=5, 32 golden questions. Reproduce with
+`python src/eval/harness.py -k 5`.
+
+| type | n | single-stage | two-stage (default) |
+|---|---|---|---|
+| `cross_document` | 2 | **0.000** | **1.000** |
+| `jurisdiction` | 3 | 0.667 | **1.000** |
+| `status_sensitive` | 2 | 0.500 | **1.000** |
+| `single_hop` | 21 | **0.952** | 0.905 |
+| `refusal` | 2 | 1.000 | 1.000 |
+| `out_of_scope` | 2 | 1.000 | 1.000 |
+| **overall correct** | 32 | **0.844** | **0.938** |
+| recall@k | | 0.857 | 0.929 |
+| MRR | | 0.723 | 0.732 |
+
+The single-stage column is the point. **Overall 0.844 reads as a working system while the
+capability the corpus was chosen to test scores zero.** That is what per-type reporting is
+for, and it paid for itself on the first run.
+
+The fix is two-stage retrieval ([ADR 0008](docs/decisions/0008-multihop-retrieval.md)):
+`29 CFR 1607.4(D)` sat at rank 28 for *"where does the 80 percent benchmark come from?"*,
+because the whole top-20 was NYC documents. Using a retrieved NYC chunk as its own query
+put it at cross-source rank 3.
+
+**It costs something, and the cost is not hidden:** `single_hop` drops from 0.952 to 0.905,
+because reserving two of five slots for cross-document hits takes them from somewhere. Run
+`python src/eval/harness.py --no-multihop` to reproduce the trade rather than take it on
+trust.
 
 ---
 
-## Four failures found by measuring
+## Five failures found by measuring
 
 **1. The citation-header hypothesis was half wrong.** Embedding each chunk's citation was
 supposed to separate 29 CFR 1607 from 41 CFR 60-3, which are 99.6% textually identical.
@@ -140,7 +169,13 @@ numbering conventions — 1978-era parts mark subsections `A.` `B.`, modern part
 oversized units. Nothing failed; the chunks were just wrong. Fixing it took the corpus from
 335 units to 760 and the largest chunk from ~5,138 tokens to ~1,726.
 
-**4. PDF extraction corrupted the corpus's most important term.** `pypdf` emits NUL where a
+**4. The harness measured the wrong layer.** Both refusal questions scored as failures
+because the harness called `index.search()` directly, while legal-advice refusals are
+enforced in the composer *before* retrieval runs. The system was correct and the
+measurement was wrong — which is its own lesson about trusting a number without knowing
+which component produced it.
+
+**5. PDF extraction corrupted the corpus's most important term.** `pypdf` emits NUL where a
 glyph has no character mapping, and in the EEOC guidance that hit f-ligatures:
 `four-fi\x00hs` appears 19 times. Unrepaired, the one federal document about applying the
 four-fifths rule to AI would never match a query about the four-fifths rule — and nothing
@@ -211,6 +246,11 @@ force.
   counted and reported, not hidden.
 - **The archived EEOC copy is third-party** (ACLU of Massachusetts mirror), not an official
   source. Provenance is in the manifest.
+- **Two golden questions still fail**, both `single_hop`, both because a reserved
+  cross-document slot displaced the correct citation at rank 4 or 5. Recoverable by
+  raising `k` or dropping to one hop strategy; left as the honest cost of ADR 0008.
+- **Retrieval costs three embedding passes per query** with two-stage enabled, roughly
+  3x latency. Fine at ~2s/query on CPU; would need caching under load.
 - **Jurisdiction coverage is partial** — NYC and Colorado only. Illinois, California FEHA
   and the EU are not represented.
 
@@ -228,6 +268,8 @@ Every non-obvious choice, what was rejected, and why:
 | [0004](docs/decisions/0004-jurisdiction-dedup.md) | Jurisdiction handled by deduplication |
 | [0005](docs/decisions/0005-withdrawn-guidance.md) | Withdrawn guidance stays, carrying status |
 | [0006](docs/decisions/0006-structural-guardrails.md) | Guardrails in types, not prompts |
+| [0007](docs/decisions/0007-evaluation-design.md) | Evaluation design, and why not LLM-as-judge |
+| [0008](docs/decisions/0008-multihop-retrieval.md) | Two-stage retrieval, measured against its cost |
 
 ---
 

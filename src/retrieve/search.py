@@ -32,6 +32,21 @@ PROCESSED = ROOT / "data" / "processed"
 # ADR 0006. Raising it trades recall for fewer confident wrong answers.
 ABSTAIN_THRESHOLD = 0.62
 
+# Cross-document retrieval. Measured on this corpus: the query "where does the
+# 80 percent benchmark in NYC bias audits come from?" puts 29 CFR 1607.4(D) at
+# rank 28, because the whole top-20 is NYC documents - the query speaks 2023 NYC
+# vocabulary and the answer is written in 1978 federal vocabulary.
+#
+# Using a retrieved chunk as its own query crosses that gap: from the NYC bias
+# audit rule, 1607.4(D) is at cross-source rank 3. So the second hop asks "what
+# else in the corpus, from a different source, is about this?" - which is the
+# cross-reference relationship the embedding space does not encode.
+#
+# Slots are reserved rather than merged by score, so hop-2 results cannot crowd
+# out direct answers to single-hop questions. See ADR 0008.
+MULTIHOP_SEEDS = 2      # how many stage-1 results to expand from
+MULTIHOP_RESERVE = 2    # slots in the final k reserved for cross-source hits
+
 
 @dataclasses.dataclass
 class Result:
@@ -110,6 +125,71 @@ class Index:
                 )
             )
         return out
+
+    def search_multihop(
+        self,
+        query: str,
+        k: int = 5,
+        seeds: int = MULTIHOP_SEEDS,
+        reserve: int = MULTIHOP_RESERVE,
+    ) -> list[Result]:
+        """Retrieve, then expand from the top results into other sources.
+
+        Stage 1 answers the question as asked. Stage 2 takes the best stage-1
+        chunks and asks what else, in a *different* source, is about the same
+        thing. The reserved slots are filled from stage 2 only by chunks not
+        already present, so a question fully answered by stage 1 loses at most
+        `reserve` of its lower-ranked direct hits.
+        """
+        reserve = max(0, min(reserve, k - 1))
+        direct = self.search(query, k=k)
+        if reserve == 0 or not direct:
+            return direct
+
+        seen = {r.chunk_id for r in direct}
+        expanded: list[Result] = []
+
+        # Two different gaps need two different hops, and measurement showed
+        # each one fixes what the other misses:
+        #
+        #   cross-JURISDICTION  NYC's bias-audit rule depends on a federal
+        #                       threshold. Excluding only the seed's source sent
+        #                       the hop sideways from nyc_ll144_rules into
+        #                       nyc_aedt_faq - same regime, no new information.
+        #                       Excluding the jurisdiction forces the crossing.
+        #
+        #   cross-SOURCE        withdrawn EEOC guidance and UGESP are both
+        #                       US-federal, so a jurisdiction hop can never link
+        #                       them. Excluding the source does.
+        #
+        # Using only the first lost cross_document; only the second lost
+        # jurisdiction and status_sensitive. See ADR 0008.
+        strategies = (
+            lambda hit, seed: hit.jurisdiction != seed.jurisdiction,
+            lambda hit, seed: not (set(hit.source_ids) & set(seed.source_ids)),
+        )
+
+        for strategy in strategies[:reserve]:
+            for seed in direct[:seeds]:
+                picked = False
+                for hit in self.search(seed.body, k=k + 40):
+                    if hit.chunk_id in seen or not strategy(hit, seed):
+                        continue
+                    seen.add(hit.chunk_id)
+                    expanded.append(hit)
+                    picked = True
+                    break
+                if picked:
+                    break
+
+        if not expanded:
+            return direct
+
+        kept = direct[: k - len(expanded)]
+        merged = kept + expanded[: k - len(kept)]
+        for rank, r in enumerate(merged, start=1):
+            r.rank = rank
+        return merged
 
     def should_abstain(self, results: list[Result]) -> bool:
         return not results or results[0].score < ABSTAIN_THRESHOLD
