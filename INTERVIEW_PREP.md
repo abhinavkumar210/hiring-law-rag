@@ -126,3 +126,107 @@ stopped trying to solve a metadata problem in embedding space and filtered on
 jurisdiction instead."
 
 That is a stronger answer than if the hypothesis had simply worked.
+
+---
+
+# Build-out notes (2026-09-22)
+
+## Four findings, in order of how well they land
+
+**1. PDF extraction corrupted "four-fifths" 19 times, silently.**
+`pypdf` emits NUL (0x00) where a glyph has no character mapping. In the EEOC guidance that
+hit f-ligatures: `four-fi\x00hs`. Unrepaired, the one federal document about applying the
+four-fifths rule to AI would never match a query about the four-fifths rule, and nothing
+raises an error.
+Why it lands: it is a concrete, specific, *silent* data-quality bug in the most important
+term in the corpus. The repair reports what it cannot resolve instead of guessing.
+Follow-up they will ask: "how did you find it?" Answer: the units looked too large, so I
+inspected the raw extraction, saw a gap, and checked the codepoints. It was a NUL, not a
+space — which is why searching for "arti cial" found nothing.
+
+**2. The EEOC withdrew its AI hiring guidance in January 2025.**
+Both documents 404 on eeoc.gov. Not stale links — removed.
+Why it lands: it retroactively validated the scope decision. The rejected "AI rules only"
+corpus would have been built largely from guidance that has since been rescinded. The
+foundation layer was chosen for retrieval reasons and turned out to be the layer still in
+force. UGESP is from 1978 and still governs.
+The design consequence: withdrawn guidance is *kept*, with status metadata that travels
+into the embedded text and into the answer, and the composer cannot construct an answer
+citing it without a disclosure.
+
+**3. The header hypothesis was measured and half-refuted.**
+See the results table above. Moving similarity 1.00 -> 0.95 sounds like a win until you
+notice 0.95 still ranks the wrong jurisdiction first.
+The better insight underneath: a federal contractor is subject to *both* 41 CFR 60-3 and
+29 CFR 1607. So the system was never failing to pick the right document — it was failing to
+disclose which regime it was quoting. That reframes a ranking problem as a disclosure
+problem, and the fix became deduplication, not reranking.
+
+**4. Writing the deduplicator generically found nine duplicate relationships I did not
+know existed**, including a three-way overlap, because it was not special-cased to the one
+pair I had measured.
+
+## Numbers that are real (all measured, none estimated)
+
+| | |
+|---|---|
+| corpus | 754 chunks, 13 sources, 718 distinct citations |
+| near-duplicate cosine, no header | 1.0001 mean, 67/67 pairs > 0.99 |
+| near-duplicate cosine, with header | 0.9515 mean, 0/67 pairs > 0.99 |
+| dedup | 760 -> 683 eCFR chunks, 76 multi-citation |
+| parser fix | 335 -> 760 units; largest chunk 5,138 -> 1,726 est. tokens |
+| chunk size | median 119 est. tokens, p99 1,410, max 1,726 |
+| ligature corruption | 82 NUL sites, 19 in "four-fifths", 1 unresolved |
+| golden set | 32 questions, 5 types, all matchers validated against corpus |
+
+## Questions to be ready for
+
+**"Why is a 1978 regulation in an AI project?"** — LL144 defines the test but not the
+threshold; the threshold is 29 CFR 1607.4(D), which LL144 never cites; 45 years apart, no
+shared vocabulary, so embedding similarity will never connect them. That is the retrieval
+failure the harness measures.
+
+**"How do you know retrieval works?"** — 32 hand-written golden questions with expected
+evidence expressed as citation matchers, validated in CI against the corpus so a bad golden
+item cannot masquerade as a retrieval bug. Scored per type because an aggregate hides
+cross-document failures. Regression gate at 2 points fails CI.
+
+**"Why not LLM-as-judge?"** — non-deterministic, unversioned, costs money per run, cannot
+run air-gapped, and it measures phrasing when the failures here are retrieval failures.
+
+**"Why not OpenAI embeddings?"** — strongest reason is the air-gapped deployment case, not
+cost: a federal deployment frequently cannot send regulated queries to a third-party API.
+Second reason: re-indexing is free, and tuning the harness means rebuilding the index many
+times. Third: it exercises no local-model skills.
+
+**"Describe a bug that would not throw an error."** — three from this project: the NUL
+ligature corruption; the parser knowing only one of two CFR numbering conventions and
+collapsing 514 paragraphs into 16 chunks; and using the wrong task prefix after a model
+swap (nomic needs `search_document:`, gte-modernbert needs none).
+
+**"Tell me about testing that gave you false confidence."** — the exact-match collision
+metric. It returned zero collisions, which looked clean, but it returned zero for *every*
+strategy, so it could not discriminate between them. Byte equality was never the risk;
+cosine similarity was. Clean metric, useless metric.
+
+**"How do you handle a dependency you do not control?"** — nomic-embed requires
+`trust_remote_code=True`; its vendor code targets transformers 4.x and dies under 5.x
+inside `forward()`. Rather than pin an old transformers, I moved to gte-modernbert, which
+reaches the same 8k context natively and executes no third-party code at load. The ADR had
+already flagged remote code as something that would fail a federal security review, so the
+failure argued for what the ADR was uneasy about.
+
+**"Why are guardrails in types instead of prompts?"** — a prompt is a request that fails
+silently and non-deterministically; a constructor that raises is a guarantee. There is no
+code path that returns an uncited answer, including one written later by someone who never
+read the ADR.
+
+## Weak spots to shore up before interviewing
+
+- [ ] Be able to whiteboard the full pipeline cold: fetch -> parse -> normalise -> chunk ->
+      dedupe -> embed -> index -> retrieve -> abstain -> compose.
+- [ ] Know why brute-force cosine over 754 chunks is correct and when it stops being
+      correct (roughly 10^5-10^6 vectors, then HNSW/IVF).
+- [ ] Be ready for "what would you do differently" — honest answer: hybrid BM25 retrieval
+      for the non-duplicate remainder, and a canonical ordering rule for merged citations.
+- [ ] Be able to explain why the abstention threshold is 0.62 and what moving it costs.
