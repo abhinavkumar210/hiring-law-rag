@@ -51,6 +51,11 @@ class Unit:
     citation: str
     subsection: str | None
     text: str
+    # Jurisdiction and legal status travel with the text from ingestion into the
+    # answer. eCFR parts are in force and federal by construction; the AI layer
+    # includes withdrawn guidance, which must never be quoted as current.
+    jurisdiction: str = "US-federal"
+    status: str = "in_force"
 
     @property
     def full_citation(self) -> str:

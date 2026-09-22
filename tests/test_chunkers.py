@@ -107,3 +107,39 @@ def test_deduplicate_leaves_unique_bodies_untouched():
     merged = deduplicate(ug)
     assert len(merged) == len({c.body for c in ug})
     assert all(len(c.citations) == 1 for c in merged if c.body in {u.body for u in ug})
+
+
+def test_ligature_repair_restores_four_fifths():
+    """PDF extraction emitted NUL for f-ligatures, corrupting the corpus's key term.
+
+    Regression guard: "four-fi\x00hs" must come back as "four-fifths", or the one
+    federal document on applying the rule to AI stops matching queries about it.
+    """
+    from ingest.text_normalize import repair_ligatures
+
+    fixed, residual = repair_ligatures("the four-fi\x00hs rule and so\x00ware")
+    assert "four-fifths" in fixed
+    assert "software" in fixed
+    assert residual == 0
+
+
+def test_ligature_repair_reports_unresolved_gaps():
+    from ingest.text_normalize import repair_ligatures
+
+    fixed, residual = repair_ligatures("xy\x00zq unknown context")
+    assert residual == 1, "unresolvable gaps must be counted, not hidden"
+    assert "\x00" not in fixed
+
+
+def test_withdrawn_status_is_embedded_in_the_chunk():
+    """Withdrawn guidance must never be quoted as current."""
+    import pathlib as _p
+
+    from ingest.parse_ai_layer import parse_all
+
+    units = parse_all(_p.Path(__file__).resolve().parents[1] / "data" / "raw" / "ai_layer")
+    withdrawn = [u for u in units if u.status == "WITHDRAWN"]
+    assert withdrawn, "expected the archived EEOC guidance to be present"
+    for c in structural(withdrawn):
+        assert "STATUS: WITHDRAWN" in c.embed_text
+        assert c.status == "WITHDRAWN"

@@ -53,6 +53,8 @@ class Chunk:
     source_id: str
     citations: list[str]     # every citation this chunk's text covers
     n_tokens: int
+    jurisdiction: str = "US-federal"
+    status: str = "in_force"
     source_ids: list[str] = dataclasses.field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -64,7 +66,8 @@ def structural(units: list[Unit]) -> list[Chunk]:
     """Strategy C — one chunk per subsection, citation header embedded."""
     chunks = []
     for i, u in enumerate(units):
-        header = f"{u.part_title} | {u.section_heading} | {u.full_citation}"
+        status_tag = "" if u.status == "in_force" else f" | STATUS: {u.status}"
+        header = f"{u.part_title} | {u.section_heading} | {u.full_citation}{status_tag}"
         header = re.sub(r"\s+", " ", header).strip()
         embed_text = f"{header}\n\n{u.text}"
         chunks.append(
@@ -76,6 +79,8 @@ def structural(units: list[Unit]) -> list[Chunk]:
                 source_id=u.source_id,
                 citations=[u.full_citation],
                 n_tokens=count_tokens(embed_text),
+                jurisdiction=u.jurisdiction,
+                status=u.status,
             )
         )
     return chunks
