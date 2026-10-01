@@ -34,32 +34,32 @@ project is built around.
 
 ```mermaid
 flowchart TB
-    subgraph ingest["Ingestion"]
+    subgraph ING["Ingestion"]
         A1["eCFR API<br/>9 CFR parts"] --> P1["XML parser<br/>two numbering conventions"]
-        A2["PDF / HTML<br/>NYC, Colorado, EEOC archive"] --> P2["Text normaliser<br/>ligature repair, reflow"]
+        A2["PDF / HTML<br/>NYC, Colorado, EEOC archive"] --> P2["Text normalizer<br/>ligature repair, reflow"]
     end
 
-    P1 --> U["Units<br/>citation · jurisdiction · status"]
+    P1 --> U["Units<br/>citation, jurisdiction, status"]
     P2 --> U
 
-    subgraph index["Indexing"]
-        U --> C["Structural chunker<br/>subsection + citation header"]
-        C --> D["Deduplicator<br/>identical text → one chunk,<br/>all citations"]
+    subgraph IDX["Indexing"]
+        U --> C["Structural chunker<br/>subsection plus citation header"]
+        C --> D["Deduplicator<br/>identical text becomes one chunk<br/>carrying all citations"]
         D --> E["gte-modernbert-base<br/>local, 8k context, no remote code"]
-        E --> V[("embeddings.npy<br/>chunks.jsonl")]
+        E --> V["embeddings.npy<br/>chunks.jsonl"]
     end
 
-    subgraph serve["Serving"]
-        V --> R["Retrieval<br/>exact cosine + abstention"]
+    subgraph SRV["Serving"]
+        V --> R["Retrieval<br/>two-stage, exact cosine, abstention"]
         R --> G["Composer<br/>invariants enforced in types"]
-        G --> API["FastAPI<br/>/ask · /search · /health"]
+        G --> API["FastAPI<br/>ask, search, health"]
     end
 
-    subgraph eval["Evaluation"]
-        V --> H["Harness<br/>hit@k · recall@k · MRR · abstention"]
+    subgraph EV["Evaluation"]
+        V --> H["Harness<br/>hit@k, recall@k, MRR, abstention"]
         GS["Golden set<br/>32 questions, 5 types"] --> H
-        H --> B{"regression vs<br/>baseline?"}
-        B -->|yes| FAIL["CI fails"]
+        H --> B{"regression<br/>vs baseline?"}
+        B -- yes --> FAIL["CI fails"]
     end
 ```
 
