@@ -11,3 +11,6 @@ data/processed/
 *.sqlite
 .pytest_cache/
 .DS_Store
+
+# Private interview notes - kept locally, never published.
+INTERVIEW_PREP.md
